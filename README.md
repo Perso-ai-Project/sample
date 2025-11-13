@@ -49,49 +49,6 @@ UI 출력 (ChatGPT 스타일)
 
 ---
 
-## 🔧 설치 및 실행
-
-### 1. 저장소 클론
-```bash
-git clone https://github.com/yourusername/perso-chatbot.git
-cd perso-chatbot
-```
-
-### 2. 가상환경 생성
-```bash
-python -m venv .venv
-source .venv/bin/activate  # Windows: .venv\Scripts\activate
-```
-
-### 3. 패키지 설치
-```bash
-pip install -r requirements.txt
-```
-
-### 4. 환경변수 설정
-`.env` 파일 생성:
-```env
-COHERE_API_KEY=your-cohere-api-key-here
-QDRANT_COLLECTION_NAME=perso_qa
-SIMILARITY_THRESHOLD=0.7
-TOP_K=3
-```
-
-### 5. 서버 실행
-```bash
-# 개발 모드
-uvicorn app.main_standalone:app --reload --host 0.0.0.0 --port 8000
-
-# 프로덕션 모드
-uvicorn app.main_standalone:app --host 0.0.0.0 --port 8000
-```
-
-### 6. 브라우저 접속
-```
-http://localhost:8000
-```
-
----
 
 ## 📊 기술 설계 상세
 
@@ -104,13 +61,6 @@ http://localhost:8000
 - ✅ **벡터 크기 최적**: 1024차원 (정확도와 속도 균형)
 - ✅ **배포 친화적**: API 기반으로 서버 메모리 부담 없음
 
-**대안 분석:**
-| 모델 | 장점 | 단점 | 선택 여부 |
-|------|------|------|-----------|
-| Google Gemini | 무료 할당량 많음 | 속도 제한 엄격 | ❌ |
-| OpenAI text-embedding | 정확도 최고 | 유료 (초기 크레딧 소진) | ❌ |
-| Sentence Transformers | 완전 무료 | 배포 시 메모리 부족 | ❌ |
-| **Cohere** | **안정적, 무료** | **할당량 제한** | ✅ |
 
 #### 임베딩 방식
 ```python
@@ -155,7 +105,7 @@ VectorParams(
 
 ---
 
-### 3. 검색 로직 (핵심!)
+### 3. 검색 로직
 
 #### 2단계 검색 전략
 
@@ -164,7 +114,7 @@ VectorParams(
 search_result = client.search(
     collection_name="perso_qa",
     query_vector=query_embedding,
-    limit=5  # Top-5 후보 추출
+    limit=3  # Top-3 후보 추출
 )
 ```
 
