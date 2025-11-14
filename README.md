@@ -44,7 +44,7 @@ UI 출력 (ChatGPT 스타일)
 - **Responsive**: 모바일 최적화
 
 ### Deployment
-- **Platform**: Railway / Render
+- **Platform**: Railway / Vercel
 - **CI/CD**: Git Push → Auto Deploy
 
 ---
