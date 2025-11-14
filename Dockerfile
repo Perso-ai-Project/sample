@@ -16,8 +16,8 @@ RUN pip install --no-cache-dir --upgrade pip && \
     find /usr/local/lib/python3.11 -type f -name '*.pyc' -delete && \
     find /usr/local/lib/python3.11 -type f -name '*.pyo' -delete
 
-# 필요한 파일만 복사 (불필요한 파일 제외)
-COPY app ./app
+# 필요한 파일만 복사 (경로 수정)
+COPY ./app ./app
 COPY .env* ./
 
 # 포트 노출
