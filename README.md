@@ -66,7 +66,6 @@ source .venv/bin/activate  # Windows: .venv\Scripts\activate
 
 3. 패키지 설치
  ``` bash
-코드 복사
 cd backend
 pip install -r requirements.txt
  ``` 
