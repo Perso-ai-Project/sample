@@ -55,35 +55,40 @@ UI 출력 (ChatGPT 스타일)
 ```bash
 git clone https://github.com/Perso-ai-Project/sample.git
 cd sample
+ ```
+
 2. 가상환경 생성
-bash
-코드 복사
+ ``` bash
+
 python -m venv .venv
 source .venv/bin/activate  # Windows: .venv\Scripts\activate
+ ```
+
 3. 패키지 설치
-bash
+ ``` bash
 코드 복사
 cd backend
 pip install -r requirements.txt
+ ``` 
 4. 환경변수 설정
 .env 파일 생성:
-
-env
-코드 복사
+``` bash
 COHERE_API_KEY=your-cohere-api-key-here
 QDRANT_COLLECTION_NAME=perso_qa
 SIMILARITY_THRESHOLD=0.7
 TOP_K=3
+ ```
+
 5. 서버 실행
-bash
-코드 복사
+ ``` bash
 uvicorn app.main_standalone:app --reload --host 0.0.0.0 --port 8000
+ ```
 6. 브라우저 접속
-arduino
-코드 복사
+ ``` bash
 http://localhost:8000
-📊 기술 설계 상세
-1. 임베딩 전략
+ ```
+
+임베딩 전략
 모델: Cohere embed-multilingual-v3.0
 선택 이유
 
@@ -96,79 +101,17 @@ http://localhost:8000
 API기반이라 서버메모리 부담 없음
 
 임베딩 방식
-python
-코드 복사
+ ``` bash
 embedding = client.embed(
     texts=[question],
     model="embed-multilingual-v3.0",
     input_type="search_document"
 )
+ ```
+
 질문만 임베딩하는 이유
 
 답변 포함 시 키워드 충돌 발생
 
 질문의 의도만 벡터화해야 정확도 증가
 
-2. Vector DB 설계
-Qdrant 선택 이유
-Python 친화적
-
-In-memory로 빠름
-
-Cosine Similarity 지원
-
-무료/오픈소스
-
-컬렉션 구조
-python
-코드 복사
-VectorParams(
-    size=1024,
-    distance=Distance.COSINE
-)
-Payload 예시
-json
-코드 복사
-{
-    "question": "원본 질문",
-    "answer": "정확한 답변",
-    "index": 0
-}
-3. 검색 로직
-2단계 검색
-1단계: Vector Search
-python
-코드 복사
-search_result = client.search(
-    collection_name="perso_qa",
-    query_vector=query_embedding,
-    limit=3
-)
-2단계: Rerank
-python
-코드 복사
-reranked = client.rerank(
-    query=user_question,
-    documents=[result['question'] for result in results],
-    model="rerank-multilingual-v3.0",
-    top_n=3
-)
-Threshold
-python
-코드 복사
-SIMILARITY_THRESHOLD = 0.7
-0.7 미만 → "답변 없음" (Hallucination 방지)
-
-🎨 UI/UX 설계
-ChatGPT 스타일 채팅 UI
-
-응답 신뢰도 Badge
-
-실시간 타이핑 효과
-
-API 오류 핸들링
-
-모바일 반응형
-
-yaml
-코드 복사
