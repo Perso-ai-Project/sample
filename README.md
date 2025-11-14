@@ -54,7 +54,7 @@ UI 출력 (ChatGPT 스타일)
 ### 1. 저장소 클론
 ```bash
 git clone https://github.com/Perso-ai-Project/sample.git
-cd perso-chatbot
+cd sample
 ```
 
 ### 2. 가상환경 생성
